@@ -10,6 +10,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/Arafath08/jenkins-docker-demo.git'
+                echo "✅ Checkout stage completed"
             }
         }
 
@@ -18,6 +19,7 @@ pipeline {
                 script {
                     sh "docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} ."
                 }
+                echo "✅ Docker Image build completed"
             }
         }
 
@@ -30,6 +32,7 @@ pipeline {
                         sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
                     }
                 }
+                echo "✅ Docker Hub login completed"
             }
         }
 
@@ -38,12 +41,14 @@ pipeline {
                 script {
                     sh "docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}"
                 }
+                echo "✅ Docker Image push completed"
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "Deployment step goes here (Kubernetes, Ansible, Docker run, etc.)"
+                echo "✅ Deploy stage completed"
             }
         }
     }
