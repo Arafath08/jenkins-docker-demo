@@ -1,4 +1,4 @@
-1FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins:lts-jdk11
 
 USER root
 
@@ -12,8 +12,8 @@ RUN apt-get update && \
     apt-get install -y docker.io && \
     rm -rf /var/lib/apt/lists/*
 
-# Match host Docker socket group (1 in your case) (Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock
-)
+# Match host Docker socket group (1 in your case Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock)
+
 RUN groupadd -g 1 docker || true && \
     usermod -aG docker jenkins
 
