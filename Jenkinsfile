@@ -5,25 +5,27 @@ pipeline {
         DOCKER_IMAGE = "arafatmeeran08/jenkins-docker-demo"
     }
 
-    stage('Checkout') {
-        steps {
-            checkout([
-            $class: 'GitSCM',
-            branches: [[name: '*/main']],
-            userRemoteConfigs: [[url: 'https://github.com/Arafath08/jenkins-docker-demo.git']],
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [[$class: 'WipeWorkspace'], [$class: 'CleanBeforeCheckout']]
-        ])
-        echo "✅ Checkout stage completed"
-            }
-         }
+    stages {
 
-       stage('Test Docker Access') {
-           steps {
-             sh 'docker --version'
-             sh 'docker ps'
-             echo "✅ Jenkins can access Docker!"
-          }
+        stage('Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/Arafath08/jenkins-docker-demo.git']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'WipeWorkspace'], [$class: 'CleanBeforeCheckout']]
+                ])
+                echo "✅ Checkout stage completed"
+            }
+        }
+
+        stage('Test Docker Access') {
+            steps {
+                sh 'docker --version'
+                sh 'docker ps'
+                echo "✅ Jenkins can access Docker!"
+            }
         }
 
         stage('Build Docker Image') {
@@ -50,18 +52,3 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                script {
-                    sh "docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}"
-                }
-                echo "✅ Docker Image push completed"
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo "Deployment step goes here (Kubernetes, Ansible, Docker run, etc.)"
-                echo "✅ Deploy stage completed"
-            }
-        }
-    }
-}
