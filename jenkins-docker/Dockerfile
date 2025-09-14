@@ -15,13 +15,13 @@ RUN apt-get update && \
 
 # Match host Docker socket group (20 in your case Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock)
 
-#RUN groupadd -g 20 docker || true && \
-   # usermod -aG docker jenkins
+RUN groupadd -g 20 docker || true && \
+   usermod -aG docker jenkins
 
 
-RUN usermod -u 501 jenkins \
-    && usermod -a -G 20 jenkins \
-    && chown -R 501:20 /var/jenkins_home
+#RUN usermod -u 501 jenkins \
+ #   && usermod -a -G 20 jenkins \
+  #  && chown -R 501:20 /var/jenkins_home
 
 
 # Install Docker Compose
