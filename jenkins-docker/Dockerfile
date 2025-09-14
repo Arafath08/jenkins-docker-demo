@@ -15,8 +15,8 @@ RUN apt-get update && \
 
 # Match host Docker socket group (20 in your case Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock)
 
-RUN groupadd -g 20 docker || true && \
-   usermod -aG docker jenkins
+# Add Jenkins to the existing GID 20 group (staff on Mac)
+RUN usermod -aG 20 jenkins
 
 
 #RUN usermod -u 501 jenkins \
