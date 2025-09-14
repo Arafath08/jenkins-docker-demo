@@ -17,10 +17,10 @@ RUN apt-get update && \
 #RUN groupadd -g 20 docker || true && \
    # usermod -aG docker jenkins
 
-# Set jenkins UID to 501 and add it to group 20 (staff)
-RUN usermod -u 501 jenkins \
-    && usermod -a -G 20 jenkins \
-    && chown -R 501:20 /var/jenkins_home
+
+# Allow docker.sock access to jenkins without changing UID/GID
+RUN groupadd -for docker \
+    && usermod -aG docker jenkins
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
