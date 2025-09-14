@@ -10,6 +10,7 @@ RUN apt-get update && \
     > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
     apt-get install -y docker.io && \
+    apt-get install -y docker.io && \
     rm -rf /var/lib/apt/lists/*
 
     # Add jenkins user to docker group
@@ -17,6 +18,12 @@ RUN groupadd -for docker && \
     usermod -aG docker jenkins
 
     
+
+    # Add jenkins user to docker group
+RUN groupadd -for docker && \
+    usermod -aG docker jenkins
+
+
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
     -o /usr/local/bin/docker-compose && \
