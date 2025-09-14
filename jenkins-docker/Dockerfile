@@ -10,13 +10,11 @@ RUN apt-get update && \
     > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
     apt-get install -y docker.io && \
-    apt-get install -y docker.io && \
     rm -rf /var/lib/apt/lists/*
 
-# Add jenkins user to docker group
+# Match host Docker socket group (20 in your case)
 RUN groupadd -g 20 docker || true && \
     usermod -aG docker jenkins
-
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
