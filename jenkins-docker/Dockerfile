@@ -9,8 +9,7 @@ RUN apt-get update && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
     > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
-    apt-get install -y docker.io && \
-    && echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    apt-get install -y docker-ce-cli && \
     rm -rf /var/lib/apt/lists/*
     
 
@@ -20,9 +19,10 @@ RUN apt-get update && \
    # usermod -aG docker jenkins
 
 
-# Create docker group if not exists and add jenkins to it
+# Match host Docker socket group (20 on macOS, check with: ls -ln ~/.docker/run/docker.sock)
 RUN groupadd -f -g 20 docker \
-    && usermod -aG docker jenkins
+    && usermod -aG docker jenkins \
+    && chown -R jenkins:docker /var/jenkins_home
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
