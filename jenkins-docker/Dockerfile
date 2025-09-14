@@ -18,8 +18,8 @@ RUN apt-get update && \
    # usermod -aG docker jenkins
 
 
-# Allow docker.sock access to jenkins without changing UID/GID
-RUN groupadd -f -r docker \
+# Create docker group if not exists and add jenkins to it
+RUN groupadd -f -g 20 docker \
     && usermod -aG docker jenkins
 
 # Install Docker Compose
