@@ -5,14 +5,19 @@ pipeline {
         DOCKER_IMAGE = "arafatmeeran08/jenkins-docker-demo"
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/Arafath08/jenkins-docker-demo.git'
-                echo "✅ Checkout stage completed"
+    stage('Checkout') {
+        steps {
+            checkout([
+            $class: 'GitSCM',
+            branches: [[name: '*/main']],
+            userRemoteConfigs: [[url: 'https://github.com/Arafath08/jenkins-docker-demo.git']],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [[$class: 'WipeWorkspace'], [$class: 'CleanBeforeCheckout']]
+        ])
+        echo "✅ Checkout stage completed"
             }
-        }
+         }
+
        stage('Test Docker Access') {
            steps {
              sh 'docker --version'
