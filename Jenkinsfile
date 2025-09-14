@@ -52,3 +52,18 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
+                script {
+                    sh "docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                }
+                echo "✅ Docker Image push completed"
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deployment step goes here (Kubernetes, Ansible, Docker run, etc.)"
+                echo "✅ Deploy stage completed"
+            }
+        }
+    }
+}
