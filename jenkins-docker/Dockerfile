@@ -17,9 +17,9 @@ RUN apt-get update && \
 #RUN groupadd -g 20 docker || true && \
    # usermod -aG docker jenkins
 
-# Change jenkins user and group IDs to match macOS socket
+# Set jenkins UID to 501 and add it to group 20 (staff)
 RUN usermod -u 501 jenkins \
-    && groupmod -g 20 jenkins \
+    && usermod -a -G 20 jenkins \
     && chown -R 501:20 /var/jenkins_home
 
 # Install Docker Compose
