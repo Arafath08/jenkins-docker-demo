@@ -13,15 +13,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Add jenkins user to group with GID 20 (on Debian that's 'dialout')
-#RUN usermod -aG 20 jenkins
+RUN usermod -aG 20 jenkins
 # Fix ownership of Jenkins home (so volume mounts don’t cause errors)
-#RUN chown -R jenkins:jenkins /var/jenkins_home
+RUN chown -R jenkins:jenkins /var/jenkins_home
 
-# Change jenkins UID to 501 and add to group 20 (staff/dialout on Mac)
-RUN usermod -u 501 jenkins && \
-    groupmod -g 20 jenkins || true && \
-    usermod -aG 20 jenkins && \
-    chown -R 501:20 /var/jenkins_home
+
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
