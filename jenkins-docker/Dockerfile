@@ -12,7 +12,8 @@ RUN apt-get update && \
     apt-get install -y docker.io && \
     rm -rf /var/lib/apt/lists/*
 
-# Match host Docker socket group (20 in your case)
+# Match host Docker socket group (1 in your case) (Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock
+)
 RUN groupadd -g 1 docker || true && \
     usermod -aG docker jenkins
 
