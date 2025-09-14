@@ -13,6 +13,13 @@ pipeline {
                 echo "✅ Checkout stage completed"
             }
         }
+       stage('Test Docker Access') {
+           steps {
+             sh 'docker --version'
+             sh 'docker ps'
+             echo "✅ Jenkins can access Docker!"
+          }
+        }
 
         stage('Build Docker Image') {
             steps {
