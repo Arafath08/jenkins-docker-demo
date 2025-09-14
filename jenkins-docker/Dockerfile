@@ -19,10 +19,10 @@ RUN apt-get update && \
    # usermod -aG docker jenkins
 
 
-# Match host Docker socket group (20 on macOS, check with: ls -ln ~/.docker/run/docker.sock)
-RUN groupadd -f -g 20 docker \
-    && usermod -aG docker jenkins \
-    && chown -R jenkins:docker /var/jenkins_home
+# Match Mac UID (501) and GID (20)
+RUN usermod -u 501 jenkins \
+    && groupmod -g 20 jenkins \
+    && chown -R 501:20 /var/jenkins_home
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
