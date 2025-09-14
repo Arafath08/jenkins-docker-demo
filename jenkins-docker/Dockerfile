@@ -14,8 +14,14 @@ RUN apt-get update && \
 
 # Match host Docker socket group (20 in your case Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock)
 
-RUN groupadd -g 20 docker || true && \
-    usermod -aG docker jenkins
+#RUN groupadd -g 20 docker || true && \
+   # usermod -aG docker jenkins
+
+# Create Jenkins user with UID 501 and GID 20 (staff group on macOS)
+RUN groupadd -g 20 staff || true \
+    && useradd -u 501 -g 20 -m -d /var/jenkins_home jenkins \
+    && mkdir -p /var/jenkins_home \
+    && chown -R 501:20 /var/jenkins_home
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
