@@ -11,6 +11,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y docker.io && \
     rm -rf /var/lib/apt/lists/*
+    && echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Match host Docker socket group (20 in your case Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock)
 
