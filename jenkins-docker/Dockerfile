@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts-jdk11
+1FROM jenkins/jenkins:lts-jdk11
 
 USER root
 
@@ -13,7 +13,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Match host Docker socket group (20 in your case)
-RUN groupadd -g 20 docker || true && \
+RUN groupadd -g 1 docker || true && \
     usermod -aG docker jenkins
 
 # Install Docker Compose
