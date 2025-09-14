@@ -14,14 +14,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
     # Add jenkins user to docker group
-RUN groupadd -for docker && \
+RUN groupadd -for docker.io && \
     usermod -aG docker jenkins
 
-    
-
-    # Add jenkins user to docker group
-RUN groupadd -for docker && \
-    usermod -aG docker jenkins
 
 
 # Install Docker Compose
