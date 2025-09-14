@@ -9,20 +9,11 @@ RUN apt-get update && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
     > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
-    apt-get install -y docker-ce-cli && \
+    apt-get install -y docker.io && \
     rm -rf /var/lib/apt/lists/*
-    
 
-# Match host Docker socket group (20 in your case Cmd-->ls -ln /Users/arafathaysha/.docker/run/docker.sock)
-
-# Add Jenkins to the existing GID 20 group (staff on Mac)
+# Add jenkins user to group with GID 20 (on Debian that's 'dialout')
 RUN usermod -aG 20 jenkins
-
-
-#RUN usermod -u 501 jenkins \
- #   && usermod -a -G 20 jenkins \
-  #  && chown -R 501:20 /var/jenkins_home
-
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
