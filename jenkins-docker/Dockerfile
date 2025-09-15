@@ -9,19 +9,15 @@ RUN apt-get update && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
     > /etc/apt/sources.list.d/docker.list && \
     apt-get update && \
-    apt-get install -y docker.io && \
+    apt-get install -y docker-ce-cli && \
     rm -rf /var/lib/apt/lists/*
+
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
     -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
 
-# 🔑 Align Jenkins UID/GID with Mac host (UID=501, GID=20)
-RUN if [ "$(id -u jenkins)" != "501" ]; then usermod -u 501 jenkins; fi && \
-    if [ "$(id -g jenkins)" != "20" ]; then groupmod -g 20 jenkins || true; fi && \
-    usermod -aG 20 jenkins && \
-    chown -R 501:20 /var/jenkins_home
 
 USER jenkins
 
