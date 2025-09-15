@@ -32,8 +32,8 @@ pipeline {
             steps {
                 script {
                     // Run docker commands as root
-                    sh 'sudo docker --version'
-                    sh 'sudo docker ps'
+                    sh 'docker --version'
+                    sh 'docker ps'
                     sh "docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} ."
                 }
                 echo "✅ Docker Image build completed"
