@@ -13,11 +13,15 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Add jenkins user to group with GID 20 (on Debian that's 'dialout')
-RUN usermod -aG 20 jenkins
+#RUN usermod -aG 20 jenkins
 # Fix ownership of Jenkins home (so volume mounts don’t cause errors)
-RUN chown -R jenkins:jenkins /var/jenkins_home
+#RUN chown -R jenkins:jenkins /var/jenkins_home
 
-
+# Safely change Jenkins UID and GID to match host user (UID=501, GID=20)
+RUN if ! id -u jenkins | grep -q 501; then usermod -u 501 jenkins; fi && \
+    if ! getent group 20; then groupmod -g 20 jenkins || true; fi && \
+    usermod -aG 20 jenkins && \
+    chown -R 501:20 /var/jenkins_home
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
