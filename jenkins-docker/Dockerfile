@@ -19,7 +19,7 @@ RUN curl -L "https://github.com/docker/compose/releases/latest/download/docker-c
     chmod +x /usr/local/bin/docker-compose
 
 
-USER jenkins
+#USER jenkins
 
 
 # Add jenkins user to group with GID 20 (on Debian that's 'dialout')
